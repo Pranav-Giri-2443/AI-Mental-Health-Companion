@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nexora — AI Mental Health Companion</title>
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" />
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div id="app">
+    <!-- Header -->
+    <header id="header">
+      <div class="header-left">
+        <div id="avatar">🇮🇳</div>
+        <div>
+          <h1>Nexora</h1>
+          <p><span class="status-dot"></span>Your mental wellness companion</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Tabs -->
+    <nav id="tabs">
+      <button class="tab active" data-tab="chat">
+        <i class="ti ti-message-circle"></i> Chat
+      </button>
+      <button class="tab" data-tab="breathe">
+        <i class="ti ti-wind"></i> Breathe
+      </button>
+      <button class="tab" data-tab="meditate">
+        <i class="ti ti-brain"></i> Meditate
+      </button>
+    </nav>
+
+    <div id="panels">
+
+      <!-- ============ CHAT PANEL ============ -->
+      <section class="panel active" id="chat-panel">
+
+        <div id="mood-bar">
+          <span>Mood:</span>
+          <button class="mood-btn" data-mood="😊 Happy">😊 Happy</button>
+          <button class="mood-btn" data-mood="😔 Sad">😔 Sad</button>
+          <button class="mood-btn" data-mood="😰 Anxious">😰 Anxious</button>
+          <button class="mood-btn" data-mood="😤 Frustrated">😤 Frustrated</button>
+          <button class="mood-btn" data-mood="😴 Tired">😴 Tired</button>
+          <button class="mood-btn" data-mood="😐 Numb">😐 Numb</button>
+        </div>
+
+        <div id="messages">
+          <div class="msg ai">
+            <div class="msg-av">🇮🇳</div>
+            <div>
+              <div class="bubble">
+                Hi, I'm Nexora 🇮🇳 — a compassionate AI here to listen and support you.
+                This is a safe, judgment-free space.<br><br>
+                You can also try the <strong>Breathe</strong> or <strong>Meditate</strong> tabs
+                anytime you need to ground yourself. What's on your mind today?
+              </div>
+              <div class="msg-time" id="initial-time"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="typing">
+          <div class="msg-av small">🇮🇳</div>
+          <div class="tdots"><span></span><span></span><span></span></div>
+        </div>
+
+        <div id="quick-replies">
+          <button class="qr-btn">I've been feeling overwhelmed</button>
+          <button class="qr-btn">I can't sleep well lately</button>
+          <button class="qr-btn">Help me calm down</button>
+          <button class="qr-btn">I need to vent</button>
+        </div>
+
+        <div id="composer">
+          <textarea id="input" placeholder="Share what's on your mind..." rows="1"></textarea>
+          <button id="send-btn" aria-label="Send"><i class="ti ti-arrow-up"></i></button>
+        </div>
+        <div id="disclaimer">Not a substitute for professional care. In crisis? Call or text +91-9238487769, +91-6266776755, +91-9179879551.</div>
+      </section>
+
+      <!-- ============ BREATHE PANEL ============ -->
+      <section class="panel" id="breathe-panel">
+        <p class="section-label">Choose a technique</p>
+
+        <div class="breathe-techniques">
+          <div class="tech-card selected" data-tech="4-7-8">
+            <h4>4-7-8 Breathing</h4>
+            <p>Calms anxiety, aids sleep</p>
+            <div class="pattern">Inhale 4 · Hold 7 · Exhale 8</div>
+          </div>
+          <div class="tech-card" data-tech="box">
+            <h4>Box Breathing</h4>
+            <p>Focus &amp; stress relief</p>
+            <div class="pattern">Inhale 4 · Hold 4 · Exhale 4 · Hold 4</div>
+          </div>
+          <div class="tech-card" data-tech="4-4-4">
+            <h4>Relaxing Breath</h4>
+            <p>Quick reset, any time</p>
+            <div class="pattern">Inhale 4 · Exhale 4</div>
+          </div>
+          <div class="tech-card" data-tech="physiological">
+            <h4>Physiological Sigh</h4>
+            <p>Fastest stress relief</p>
+            <div class="pattern">Double inhale · Long exhale</div>
+          </div>
+        </div>
+
+        <div class="cycles-row">
+          <span>Cycles:</span>
+          <input type="range" min="1" max="10" value="5" step="1" id="cycles-range">
+          <span id="cycles-val">5</span>
+        </div>
+
+        <div id="breathe-circle-area">
+          <svg id="breathe-svg" width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="80" cy="80" r="60" fill="#E1F5EE" stroke="#9FE1CB" stroke-width="1"/>
+            <circle id="bc-ring" cx="80" cy="80" r="60" fill="none" stroke="#1D9E75" stroke-width="4"
+                    stroke-dasharray="377" stroke-dashoffset="377" stroke-linecap="round"
+                    transform="rotate(-90 80 80)"/>
+            <circle id="bc-inner" cx="80" cy="80" r="30" fill="#5DCAA5" opacity="0.7"/>
+          </svg>
+          <div id="breathe-label">Ready</div>
+          <div id="breathe-sublabel">Select a technique and press Start</div>
+          <div id="breathe-timer" class="hidden">Cycle 1 of 5</div>
+        </div>
+
+        <div id="breathe-controls">
+          <button class="b-btn primary" id="start-btn">Start</button>
+          <button class="b-btn" id="reset-btn">Reset</button>
+        </div>
+      </section>
+
+      <!-- ============ MEDITATE PANEL ============ -->
+      <section class="panel" id="meditate-panel">
+        <p class="section-label">Guided sessions</p>
+
+        <div id="session-list">
+          <div class="med-session" data-id="body-scan" data-dur="300" data-title="Body Scan" data-emoji="🌊"
+               data-desc="A gentle awareness journey from head to toe that melts away tension and reconnects you with your body.">
+            <div class="med-icon" style="background:#E6F1FB;">🌊</div>
+            <div class="med-info"><h4>Body Scan</h4><p>Release tension from head to toe</p></div>
+            <div class="med-dur">5 min</div>
+          </div>
+
+          <div class="med-session" data-id="loving-kindness" data-dur="240" data-title="Loving Kindness" data-emoji="💚"
+               data-desc="Cultivate warmth and compassion toward yourself and others. A practice for when you feel disconnected or harsh toward yourself.">
+            <div class="med-icon" style="background:#EAF3DE;">💚</div>
+            <div class="med-info"><h4>Loving Kindness</h4><p>Cultivate self-compassion &amp; warmth</p></div>
+            <div class="med-dur">4 min</div>
+          </div>
+
+          <div class="med-session" data-id="anxiety-calm" data-dur="180" data-title="Anxiety Relief" data-emoji="🌸"
+               data-desc="A grounding meditation for when anxiety feels overwhelming. Uses breath, body awareness, and gentle visualisation to find calm.">
+            <div class="med-icon" style="background:#FBEAF0;">🌸</div>
+            <div class="med-info"><h4>Anxiety Relief</h4><p>Ground yourself in the present moment</p></div>
+            <div class="med-dur">3 min</div>
+          </div>
+
+          <div class="med-session" data-id="sleep" data-dur="360" data-title="Sleep Wind-Down" data-emoji="🌙"
+               data-desc="A slow, soothing practice to quiet the mind and prepare your body for deep, restful sleep.">
+            <div class="med-icon" style="background:#EEEDFE;">🌙</div>
+            <div class="med-info"><h4>Sleep Wind-Down</h4><p>Quiet your mind before bed</p></div>
+            <div class="med-dur">6 min</div>
+          </div>
+        </div>
+
+        <div id="med-player" class="hidden">
+          <div class="med-player-head">
+            <h3 id="med-title">Body Scan</h3>
+            <button id="med-close-btn" aria-label="Close"><i class="ti ti-x"></i></button>
+          </div>
+          <div id="med-ai-text">Loading your session…</div>
+          <div id="med-progress-wrap">
+            <div id="med-progress"><div id="med-progress-bar"></div></div>
+            <div class="med-time-row"><span id="med-elapsed">0:00</span><span id="med-total">5:00</span></div>
+          </div>
+          <div class="med-controls">
+            <button id="med-play-btn" aria-label="Play/Pause"><i class="ti ti-player-play" id="med-play-icon"></i></button>
+            <span id="med-status">Press play to begin</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
